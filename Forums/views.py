@@ -54,6 +54,7 @@ def detail_post(request, pk):
      new_comment: "new_comment",
     comment_form :"comment_form" })             
 
+@csrf_exempt
 @login_required #required login before taking any actions
 def edituserdetails(request, pk):
     user = User.objects.get(pk=pk)
@@ -61,19 +62,24 @@ def edituserdetails(request, pk):
     #create profile and also editting and validating every field sent
     profileinlineformset = inlineformset_factory(User, UserProfile, fields=("bio", "phone", "department", "faculty"))
     formset = profileinlineformset(instance=user)
-    if request.user.is_authenticated() and request.user.id == user.id:
+
+
+    if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             userform = UserProfileForm(request.POST, request.FILES, instance=user)
             formset = profileinlineformset(request.POST, request.FILES, instance=user)
+
+
             if userform.is_valid():
                 created_user = userform.save(commit=False)
                 formset = profileinlineformset(request.POST, request.FILES, instance=created_user)
+
                 if formset.is_valid():
                     created_user.save()
                     formset.save()
-                    return HttpResponseRedirect('account/profile')
+                    return Redirect('profile')
 
-        return render(request, "account/accountUpdate.html", {"userPk": pk
+        return render(request, "profile.html", {"userPk": pk
         , "user_form": userform,
         "formset": formset
         })

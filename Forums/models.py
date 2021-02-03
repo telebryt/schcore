@@ -10,12 +10,13 @@ class UserProfile(models.Model):
     def upload_location(instance, filename):
         return 'post/{filename}'.format(filename=filename)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user")
     image = models.ImageField(_("Image"), upload_to=upload_location, default="post/default.jpg")
     bio = models.TextField(blank=True,default="")
     phone = models.CharField(max_length=20, blank=True, default="")
-    faculty = models.CharField(max_length=250,blank=True,default="")
-    department = models.CharField(max_length=250, blank=True, default="")
+    faculty = models.CharField(max_length=100,blank=True,default="")  
+
+    department = models.CharField(max_length=100, blank=True, default="")
     
     def create_profile(sender, *args, **kwargs):
         user = kwargs["instance"]
