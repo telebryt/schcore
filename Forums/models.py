@@ -33,10 +33,10 @@ class UserProfile(models.Model):
 class PostModel(models.Model):
     class PostManager(models.Manager):
         def get_queryset(self):
-            return super().get_queryset() .filter(Published = "published")
+            return super().get_queryset() .filter(Status = "published")
     class DraftManager(models.Manager):
         def get_queryset(self):
-            return super().get_queryset() .filter(Published = "draft")
+            return super().get_queryset() .filter(Status = "draft")
 
     Faculties = {
         ("General","General"),
@@ -60,10 +60,10 @@ class PostModel(models.Model):
     images = models.ImageField(_("Image"), upload_to=upload_location, default='post/default.jpeg')
     content = models.TextField()
     slug = models.SlugField(max_length = 250, unique_for_date = "Published")
-    Published = models.DateTimeField(auto_now=True, auto_now_add=False )
-    Faculty = models.CharField(max_length=250,choices = Faculties,default = "Published")
-    Status = models.CharField(max_length=50, choices = state, default = 'University')
-    Update = models.DateTimeField(auto_now=True, auto_now_add=False)
+    Published = models.DateTimeField(auto_now=True)
+    Faculty = models.CharField(max_length=250,choices = Faculties,default = "General")
+    Status = models.CharField(max_length=50, choices = state, default = 'Published')
+    Update = models.DateTimeField(auto_now=True)
     objects = models.Manager() #default manager
     PostManager = PostManager()#custom manager
     DraftManager = DraftManager()#custom manager for drafted post
