@@ -45,7 +45,7 @@ class Post(models.Model):
     }
     class PostManager(models.Manager):
         def get_queryset(self):
-            return supper().get_queryset() .filter(status = "published")
+            return super().get_queryset() .filter(published= "published")
     
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField( max_length=254)
