@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from .form import commentform,postform,UserProfileForm
-from .models import Post,Comments,UserProfile
+from .models import PostModel,Comments,UserProfile
 
 
 
@@ -27,7 +27,7 @@ def createpost(request):
     return render(request, template_name)        
         
 
-def Detail_Post(request, pk):
+def detail_post(request, pk):
     template_name = "postdetail.html"
     post = get_object_or_404(Post, pk=pk)
     comments = post.comment.filter(active=True)

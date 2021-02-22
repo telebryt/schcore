@@ -1,8 +1,8 @@
-# from django.urls import path
-# from .views import postcomment
+from django.urls import path
+from .views import detail_post
 
-# app_name = "Forum"
+app_name = "forum"
 
-# urlpatterns = [
-#     path("<slug:slug>/",postdetail.as_view,name = "postcomment")
-# ]
+urlpatterns = [
+    path("<int:pk>/",detail_post,name = "postcomment")
+]

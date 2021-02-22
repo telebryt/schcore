@@ -1,11 +1,11 @@
 from django import forms
-from .models import Post,Comments
+from .models import PostModel,Comments
 from django.contrib.auth.models import User
 
 class postform(forms.ModelForm):
     class Meta:
-        model = Post
-        fields =("author", "email", "title", "body","published","faculty")
+        model = PostModel
+        fields =("author", "email", "title", "content","status","faculty")
         
 class commentform(forms.ModelForm):
     class Meta:

@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
@@ -29,7 +30,11 @@ class UserProfile(models.Model):
         return self.user
 
 
-class Post(models.Model):
+class PostModel(models.Model):
+    class PostManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset() .filter(status = "Published")
+
     Faculties = {
         ("University","University"),
         ("FOST", "FOST"),
@@ -43,31 +48,35 @@ class Post(models.Model):
         ("published", "published")
         
     }
-    class PostManager(models.Manager):
-        def get_queryset(self):
-            return supper().get_queryset() .filter(status = "published")
-    
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    email = models.EmailField( max_length=254)
-    title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length = 250,unique_for_date = "published")
-    body = models.TextField()
-    published = models.CharField(max_length=50, choices=status,default="published")
-    faculty = models.CharField(max_length=50, choices=Faculties,default="University")
-    date_published = models.DateField(auto_now_add=True)
-    objects = models.Manager()#default post manager
-    PostManager = PostManager()#customer post manager
+    def upload_location(instance, filename):
+        return 'post/{filename}'.format(filename=filename)
 
-    class Meta:
-        ordering = ['-date_published']
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_post')
+    title = models.CharField(max_length=250)
+    images = models.ImageField(_("Image"), upload_to=upload_location, default='post/default.jpeg')
+    content = models.TextField()
+    email = models.EmailField(max_length=254)
+    slug = models.SlugField(max_length = 250, unique_for_date = "Published")
+    Published = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=250,choices = status,default = "Published")
+    faculty = models.CharField(max_length=50, choices = Faculties, default = 'News')
+    objects = models.Manager() #default manager
+    PostManager = PostManager()#custom manager
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(PostModel, self).save(*args, **kwargs)
+        
     def __str__(self):
-        return 'comment {} by {} '.format(self.body, self.name)    
+        return self.title
+    class Meta:
+        ordering = ("-Published",)  
 
 class Comments(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
-    posts = models.ForeignKey(Post, on_delete=models.CASCADE,related_name="comments")
-    parent = models.ForeignKey('self',null=True, on_delete=models.CASCADE,related_name="replies")
+    posts = models.ForeignKey(PostModel, on_delete=models.CASCADE,related_name="comments")
+    parent = models.ForeignKey('self',null=True , on_delete=models.CASCADE,related_name="replies")
     body = models.TextField()
-    date_posted = models.DateField(auto_now_add=True)
+    datePosted = models.DateField(auto_now_add=True)
     active = models.BooleanField(default = False)
     
