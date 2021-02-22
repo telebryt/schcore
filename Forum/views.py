@@ -28,7 +28,7 @@ def createpost(request):
         
 
 def Detail_Post(request, pk):
-    template_name = "postdetail.html"
+    template_name = "detail.html"
     post = get_object_or_404(Post, pk=pk)
     comments = post.comment.filter(active=True)
     new_comment = None
