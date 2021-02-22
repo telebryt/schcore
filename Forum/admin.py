@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post,Comments
+from .models import Post,Comments,UserProfile
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -18,4 +18,8 @@ class CommentAdmin(admin.ModelAdmin):
     def approve_comments(self, request, queryset):
         queryset.update(active=True)
         
+@admin.register(UserProfile)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("user", "bio", "faculty", "department","phone")
+
 
