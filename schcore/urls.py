@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from Forum.views import Detail_Post
+from Forum.views import index, Detail_Post
 
 
 urlpatterns = [
+	path('', index, name="home" ),
     path("<int:pk>/",Detail_Post,name = "postcomment"),
     path('admin/', admin.site.urls),
 ]
