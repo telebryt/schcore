@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404,HttpResponse, HttpResponseRedirect,redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt 
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from .form import commentform,postform,UserProfileForm
@@ -27,7 +29,7 @@ def createpost(request):
     return render(request, template_name)        
         
 
-def Detail_Post(request, pk):
+def detail_post(request, pk):
     template_name = "detail.html"
     post = get_object_or_404(Post, pk=pk)
     comments = post.comment.filter(active=True)
@@ -51,7 +53,7 @@ def Detail_Post(request, pk):
     comment_form :"comment_form" })             
 
 @login_required #required login before taking any actions
-def editUserdetails(request, pk):
+def edituserdetails(request, pk):
     user = User.objects.get(pk=pk)
     userform = UserProfileForm(instance=user)
 
@@ -79,3 +81,55 @@ def editUserdetails(request, pk):
         raise PermissionDenied       
 
                 
+
+#user registrations
+@csrf_exempt
+def registration(request, *args, **kwargs):
+    template_name = "form/register.html"
+    if request.method == "POST":
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        email = request.POST["email"]
+        password1 = request.POST["password1"]
+        password2 = request.POST["password2"]
+        username = request.POST["username"]
+
+        if password1 == password2:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, "username already taken")
+                return render(request, template_name)
+                
+            elif User.objects.filter(email=email).exists():
+                messages.info(request, "Email already taken")
+                return render(request, template_name)
+            else:
+                User.objects.create_user(username=username, first_name=first_name,
+                last_name=last_name, email=email, password=password1)
+                return redirect("login")
+
+        else:
+            messages.info(request, "Password do not match")
+            return render(request, template_name)
+
+    else:
+        return render(request, template_name)
+
+
+#user login 
+@csrf_exempt
+def login(request, *args, **kwargs):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = auth.authenticate(username=username, password=password)
+        
+        if user is not None:
+            auth.login(request.user)
+            return redirect('home')
+        else:
+            messages.info(request, "Invalid Credentials")
+            return render("login")
+    else:
+        return render(request,"form/login.html")                
+        
