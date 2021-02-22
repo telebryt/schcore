@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+	<main class="w-full border">
+		
+		<div class=" p-4 pl-4 inline-block">
+			<div class="p-2">
+				<span>Home</span>
+			</div>
+			<div class="p-2">
+				<span>Questions</span>
+			</div>
+			<div class="p-2">
+				<span>Tags</span>
+			</div>
+			<div class="p-2">
+				<span>Users</span>
+			</div>
+			<div class="p-2">
+				<span>Unanswered</span>
+			</div>
+		</div>
+		
+		<div class="p-2 lg:inline-block ">
+			<div class="w-full p-4 border-b wrap">
+			<!-- Tags go here -->
+				<button class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Admission</button>
+
+				<button class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Freshers</button>
+
+				<button class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Course Registration</button>
+
+				<button class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Resit Registration</button>
+
+				<span class="text-sm text-blue-700">more tags</span>
+		</div>
+			<div class="pb-4 text-sm pl-2">
+				<span class="text-gray-800"> 12 likes</span>
+				<span class="p-2 bg-blue-600 rounded text-white"> 7 answers</span>
+				<span class="text-blue-700"> 43 views </span>
+			</div>
+			<h2 class="text-lg text-gray-800 pl-2">How do i apply to HTU ??</h2>
+			<div class="w-full p-4 text-sm">
+			<!-- Tags go here -->
+				<span class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Admission</span>
+
+				<span class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Fresher</span>
+		</div>
+			<div class="w-full p-2 border-b text-xs text-right">
+				<span class="text-gray-700">Asked</span>
+				<span>2 years, 9 months ago by </span>
+				<span class="text-blue-700">Kingsley</span>
+				
+			</div>
+
+			<div class="w-full p-4 mb-8">
+			<button class="float-right bg-blue-700 rounded p-2 text-white">Browse more Questions</button>
+		</div>
+		</div>
+	
+
+		<div class=" p-4 lg:float-right">
+			<h3 class="text-lg pt-2 pb-2">Hottest trending questions</h3>
+
+			<div class="text-sm">
+				how does the matriculation process take place ??
+			</div>
+		</div>
+	</main>
+{% endblock %}
