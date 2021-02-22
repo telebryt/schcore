@@ -4,8 +4,8 @@ from .models import PostModel,Comments,UserProfile
 @admin.register(PostModel)
 class PostAdmin(admin.ModelAdmin):
 
-    list_display = ("author", "title", "body","published","faculty","date_published")
-    list_filter = ("faculty", "published")
+    list_display = ("author", "title", "body","faculty","date_published")
+    list_filter = ("faculty",)
     search_fields = ("author", "body")
 
 
