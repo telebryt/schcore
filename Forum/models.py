@@ -33,7 +33,7 @@ class UserProfile(models.Model):
 class PostModel(models.Model):
     class PostManager(models.Manager):
         def get_queryset(self):
-            return super().get_queryset() .filter(status = "published")
+            return super().get_queryset() .filter(Published = "published")
 
     Faculties = {
         ("University","University"),

@@ -11,7 +11,7 @@ from .models import PostModel,Comments,UserProfile
 
 def index(request):
     template_name = "index.html"
-    posts = Post.PostManager.all()
+    posts = PostModel.PostManager.all()
     return render(request, template_name, {"post": posts})
     
 def createpost(request):
