@@ -19,7 +19,7 @@ from Forum.views import index, Detail_Post
 
 
 urlpatterns = [
-    path("",include("Forum.urls",namespace="forum")),
+
 	path('', index, name="home"),
     path("<int:pk>/",Detail_Post,name = "postcomment"),
     path('admin/', admin.site.urls),
