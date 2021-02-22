@@ -45,16 +45,17 @@ class Post(models.Model):
     }
     class PostManager(models.Manager):
         def get_queryset(self):
-            return super().get_queryset() .filter(published= "published")
+            return super().get_queryset() .filter(published="published")
     
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    email = models.EmailField( max_length=254)
+    #email = models.EmailField( max_length=254)
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length = 250,unique_for_date = "published")
     body = models.TextField()
     published = models.CharField(max_length=50, choices=status,default="published")
     faculty = models.CharField(max_length=50, choices=Faculties,default="University")
-    date_published = models.DateField(auto_now_add=True)
+    date_published = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
     objects = models.Manager()#default post manager
     PostManager = PostManager()#customer post manager
 

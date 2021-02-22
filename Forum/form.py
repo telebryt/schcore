@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class postform(forms.ModelForm):
     class Meta:
         model = Post
-        fields =("author", "email", "title", "body","published","faculty")
+        fields =("author", "title", "body","published","faculty")
         
 class commentform(forms.ModelForm):
     class Meta:
