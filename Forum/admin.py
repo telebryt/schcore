@@ -6,7 +6,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("author", "email", "title", "content","status","faculty","Published")
     list_filter = ("faculty", "status")
     search_fields = ("author", "email", "body")
-
+   
 
 @admin.register(Comments)
 class CommentAdmin(admin.ModelAdmin):
