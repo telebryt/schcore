@@ -67,7 +67,7 @@ class Post(models.Model):
 class Comments(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
     posts = models.ForeignKey(Post, on_delete=models.CASCADE,related_name="comments")
-    parent = models.ForeignKey('self',null=True, on_delete=models.CASCADE,related_name="replies")
+    parent = models.ForeignKey('self',null=True, blank=True, on_delete=models.CASCADE,related_name="replies")
     body = models.TextField()
     date_posted = models.DateField(auto_now_add=True)
     active = models.BooleanField(default = False)
