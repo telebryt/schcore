@@ -46,29 +46,27 @@ class PostModel(models.Model):
         ("FAD", "FAD"),
         
     }
-    status = {
+    state = {
         ("draft", "draft"),
         ("published", "published")
         
     }
 
-
-    def upload_location(self, filename):
+    def upload_location(instance, filename):
         return 'post/{filename}'.format(filename=filename)
 
- 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    #email = models.EmailField( max_length=254
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='forumPost')
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length = 250,unique_for_date = "published")
-    body = models.TextField()
-    Published = models.CharField(max_length=50, choices=status,default="published")
-    faculty = models.CharField(max_length=50, choices=Faculties,default="University")
-    date_published = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-    objects = models.Manager()#default post manager
-    PostManager = PostManager()#customer post manager
-
+    images = models.ImageField(_("Image"), upload_to=upload_location, default='post/default.jpeg')
+    content = models.TextField()
+    slug = models.SlugField(max_length = 250, unique_for_date = "Published")
+    Published = models.DateField(auto_now=True, auto_now_add=False )
+    Faculty = models.CharField(max_length=250,choices = Faculties,default = "Published")
+    Status = models.CharField(max_length=50, choices = state, default = 'University')
+    Update = models.DateField(auto_now=True, auto_now_add=False)
+    objects = models.Manager() #default manager
+    PostManager = PostManager()#custom manager
+    DraftManager = DraftManager()#custom manager for drafted post
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(PostModel, self).save(*args, **kwargs)
@@ -76,7 +74,7 @@ class PostModel(models.Model):
     def __str__(self):
         return self.title
     class Meta:
-        ordering = ("-Published",)  
+        ordering = ("-Published",)
 
 class Comments(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)

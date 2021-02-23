@@ -4,9 +4,9 @@ from .models import PostModel,Comments,UserProfile
 @admin.register(PostModel)
 class PostAdmin(admin.ModelAdmin):
 
-    list_display = ("author", "title", "body","faculty","date_published")
-    list_filter = ("faculty",)
-    search_fields = ("author", "body")
+    list_display = ("author", "title", "content","Faculty","Status","Update")
+    list_filter = ("Faculty",)
+    search_fields = ("author", "content")
 
 
 @admin.register(Comments)
