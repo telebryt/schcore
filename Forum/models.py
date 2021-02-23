@@ -34,9 +34,12 @@ class PostModel(models.Model):
     class PostManager(models.Manager):
         def get_queryset(self):
             return super().get_queryset() .filter(Published = "published")
+    class DraftManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset() .filter(Published = "draft")
 
     Faculties = {
-        ("University","University"),
+        ("General","General"),
         ("FOST", "FOST"),
         ("FOE", "FOE"),
         ("BUS", "BUS"),

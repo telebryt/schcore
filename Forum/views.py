@@ -10,25 +10,27 @@ from .models import PostModel,Comments,UserProfile
 
 
 
-
+#home page
 def index(request):
     template_name = "index.html"
-    posts = PostModel.PostManager.all()
-    return render(request, template_name, {"post": posts})
+    posts = PostModel.PostManager.all()  #for all post that has been published
+    draftpost = PostModel.DraftManager.all()#for post that has been drafted
+    return render(request, template_name, {"post": posts, "draft": draftpost})
     
+
+#create post
 def createpost(request):
     new_post = None
     template_name = "createpost.html"
     if request.method == "POST": 
         new_post = postform(data=request.data)
         if new_post.is_valid():
-            new_post.save(commit=True)
-            
+            new_post.save()
             return redirect("/")
 
     return render(request, template_name)        
         
-
+#detail post
 def detail_post(request, pk):
     template_name = "detail.html"
     post = get_object_or_404(Post, pk=pk)
@@ -56,17 +58,16 @@ def detail_post(request, pk):
 def edituserdetails(request, pk):
     user = User.objects.get(pk=pk)
     userform = UserProfileForm(instance=user)
-
-    ProfileInlineFormset = inlineformset_factory(User, UserProfile, fields=("bio", "phone", "department", "faculty"))
-    formset = ProfileInlineFormset(instance=user)
-
+    #create profile and also editting and validating every field sent
+    profileinlineformset = inlineformset_factory(User, UserProfile, fields=("bio", "phone", "department", "faculty"))
+    formset = profileinlineformset(instance=user)
     if request.user.is_authenticated() and request.user.id == user.id:
         if request.method == "POST":
             userform = UserProfileForm(request.POST, request.FILES, instance=user)
-            formset = ProfileinlIneFormset(request.POST, request.FILES, instance=user)
+            formset = profileinlineformset(request.POST, request.FILES, instance=user)
             if userform.is_valid():
                 created_user = userform.save(commit=False)
-                formset = ProfileinlIneFormset(request.POST, request.FILES, instance=created_user)
+                formset = profileinlineformset(request.POST, request.FILES, instance=created_user)
                 if formset.is_valid():
                     created_user.save()
                     formset.save()
