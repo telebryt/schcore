@@ -60,10 +60,10 @@ class PostModel(models.Model):
     images = models.ImageField(_("Image"), upload_to=upload_location, default='post/default.jpeg')
     content = models.TextField()
     slug = models.SlugField(max_length = 250, unique_for_date = "Published")
-    Published = models.DateField(auto_now=True, auto_now_add=False )
+    Published = models.DateTimeField(auto_now=True, auto_now_add=False )
     Faculty = models.CharField(max_length=250,choices = Faculties,default = "Published")
     Status = models.CharField(max_length=50, choices = state, default = 'University')
-    Update = models.DateField(auto_now=True, auto_now_add=False)
+    Update = models.DateTimeField(auto_now=True, auto_now_add=False)
     objects = models.Manager() #default manager
     PostManager = PostManager()#custom manager
     DraftManager = DraftManager()#custom manager for drafted post
@@ -83,6 +83,6 @@ class Comments(models.Model):
     posts = models.ForeignKey(PostModel, on_delete=models.CASCADE,related_name="comments")
     parent = models.ForeignKey('self',null=True, blank=True, on_delete=models.CASCADE,related_name="replies")
     body = models.TextField()
-    datePosted = models.DateField(auto_now_add=True)
+    datePosted = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default = False)
     
