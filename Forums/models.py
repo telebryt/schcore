@@ -68,6 +68,7 @@ class PostModel(models.Model):
     objects = models.Manager() #default manager
     PostManager = PostManager()#custom manager
     DraftManager = DraftManager()#custom manager for drafted post
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(PostModel, self).save(*args, **kwargs)
