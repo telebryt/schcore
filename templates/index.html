@@ -1,27 +1,19 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block content %}
-	<main class="w-full border">
-		
-		<div class=" p-4 pl-4 inline-block">
-			<div class="p-2">
-				<span>Home</span>
+		<div class="w-full lg:w-4/6 lg:inline-block">
+			<div class="p-4 text-center border-b">
+				<span class="text-2xl">{{ category }}</span>
 			</div>
-			<div class="p-2">
-				<span>Questions</span>
+			<div class="w-full p-4">
+				<div class="inline-block ">
+					<span class="text-xl">Explore  Questions your collegues asked</span>
+				</div>
+				<button class="border rounded p-2 text-white bg-blue-800 float-right">
+					Ask Question
+				</button>
 			</div>
-			<div class="p-2">
-				<span>Tags</span>
-			</div>
-			<div class="p-2">
-				<span>Users</span>
-			</div>
-			<div class="p-2">
-				<span>Unanswered</span>
-			</div>
-		</div>
-		
-		<div class="p-2 lg:inline-block ">
+		<div class="p-2 w-full lg:inline-block ">
 			<div class="w-full p-4 border-b wrap">
 			<!-- Tags go here -->
 				<button class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Admission</button>
@@ -34,37 +26,36 @@
 
 				<span class="text-sm text-blue-700">more tags</span>
 		</div>
-			<div class="pb-4 text-sm pl-2">
-				<span class="text-gray-800"> 12 likes</span>
-				<span class="p-2 bg-blue-600 rounded text-white"> 7 answers</span>
-				<span class="text-blue-700"> 43 views </span>
-			</div>
-			<h2 class="text-lg text-gray-800 pl-2">How do i apply to HTU ??</h2>
+		{% for post in posts %}
+			<div class="pt-4 w-full">
+				<div class="pb-4 text-sm pl-2">
+					<span class="text-gray-800"> 12 likes</span>
+					<span class="p-2 bg-blue-600 rounded text-white"> 7 answers</span>
+					<span class="text-blue-700"> 43 views </span>
+				</div>
+				<div class="pb-4 text-sm pl-2 flex">
+					<h2 class="text-lg text-gray-800 pl-2">{{ post.title }}</h2>
+				</div>
+			
 			<div class="w-full p-4 text-sm">
 			<!-- Tags go here -->
 				<span class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Admission</span>
 
 				<span class="p-2 bg-blue-300 text-blue-900 text-xs border rounded"> Fresher</span>
-		</div>
+			</div>
 			<div class="w-full p-2 border-b text-xs text-right">
 				<span class="text-gray-700">Asked</span>
-				<span>2 years, 9 months ago by </span>
-				<span class="text-blue-700">Kingsley</span>
+				<span>{{ post.Published|timesince }} ago by </span>
+				<span class="text-blue-700">{{ post.author.username }}</span>
 				
 			</div>
-
+			</div>
+		{% endfor %}
 			<div class="w-full p-4 mb-8">
 			<button class="float-right bg-blue-700 rounded p-2 text-white">Browse more Questions</button>
 		</div>
 		</div>
 	
-
-		<div class=" p-4 lg:float-right">
-			<h3 class="text-lg pt-2 pb-2">Hottest trending questions</h3>
-
-			<div class="text-sm">
-				how does the matriculation process take place ??
-			</div>
 		</div>
-	</main>
+
 {% endblock %}

@@ -15,8 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from user.views import validate_username
+from django.contrib.auth import views as auth_views
+from user.views import register, reset, login
 
 urlpatterns = [
     path("",include("Forums.urls",namespace="forum")),
     path('admin/', admin.site.urls),
+    path('Signup/', register, name='register'),
+    path('accounts/', include('user.urls', namespace="user")),
+    path('ajax/validate_username/',validate_username, name='validate_username'),
+    path('Logout/', auth_views.LogoutView.as_view(template_name='index.html'), name="logout"),
+
 ]

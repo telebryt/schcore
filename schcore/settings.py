@@ -25,7 +25,7 @@ SECRET_KEY = '*t59zu!5*+fg!(4p_hy%rk22z$fipj8tpq(=y%o-u2e$u)-+jq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.199','localhost','10.42.0.1']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #new apps
     "Forums",
+    "user",
+
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assert')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+LOGOUT_REDIRECT_URL = 'forum:home'

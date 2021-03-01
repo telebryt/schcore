@@ -15,7 +15,8 @@ def index(request):
     template_name = "index.html"
     posts = PostModel.PostManager.all()  #for all post that has been published
     draftpost = PostModel.DraftManager.all()#for post that has been drafted
-    return render(request, template_name, {"post": posts, "draft": draftpost})
+    active = "bg-gray-400 border-r-4 border-black"
+    return render(request, template_name, {"posts": posts, "draft": draftpost, 'active':active})
     
 
 #create post

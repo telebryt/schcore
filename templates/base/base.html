@@ -10,8 +10,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
+	<script src="{% static 'js/jquery.js' %}"></script>
 </head>
 <body>
+	
 	<header class="">
 		{% include 'base/nav.html' %}
 		<div class="w-full bg-blue-700 p-8">
@@ -21,22 +23,41 @@
 				<button class="border rounded p-2 text-white bg-blue-800 "> Sign up to join this community</button>
 			</div>
 		</div>
-		<div class="p-4 text-center border-b">
-			<span class="text-2xl">{{ category }}</span>
-		</div>
-		<div class="w-full p-4">
-				<div class="inline-block w-1/2">
-					<span class="text-xl">Explore  Questions your collegues asked</span>
-				</div>
-				<button class="border rounded p-2 text-white bg-blue-800 float-right">
-					Ask Question
-				</button>
-		</div>
+		
 	</header>
-{% block content %}
+	<main class="w-full border lg:flex">
+		
+		<div class="hidden p-4 pl-4 lg:inline-block w-1/6">
+			<div class="p-2 {{ active }}">
+				<span>Home</span>
+			</div>
+			<div class="p-2">
+				<span>Questions</span>
+			</div>
+			<div class="p-2">
+				<span>Tags</span>
+			</div>
+			<div class="p-2">
+				<span>Users</span>
+			</div>
+			<div class="p-2">
+				<span>Unanswered</span>
+			</div>
+		</div>
+		<div class="w-full lg:flex border">
+			{% block content %}
 
-{% endblock %}
+			{% endblock %}
+			<div class="p-4 text-center">
+				<h4>Hot Trending Questions</h4>
+			</div>
+		</div>
+		
+		
+	</main>
+		{% include 'base/footer.html' %}
+		{% block script %}
 
-{% include 'base/footer.html' %}
+		{% endblock %}
 </body>
 </html>

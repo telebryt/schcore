@@ -7,6 +7,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("author", "title", "content","Faculty","Status","Update")
     list_filter = ("Faculty",)
     search_fields = ("author", "content")
+    prepopulated_fields = {'slug':('title',)}
 
 
 @admin.register(Comments)

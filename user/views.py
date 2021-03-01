@@ -7,8 +7,8 @@ from django.http import JsonResponse
 	#authenticator
 
 def login(request,next_url):
-	username = request.POST['username']
-	password = request.POST['password']
+	username = request.POST.get('username')
+	password = request.POST.get('password')
 	new_user = auth.authenticate(username=username,password=password)
 	
 	if new_user is not None:
